@@ -1,0 +1,4 @@
+.ingridients {
+  flex-direction: column;
+  overflow: scroll;
+}

@@ -1,0 +1,45 @@
+.popup {
+  position: relative;
+  width: 720px;
+  height: 540px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+
+  border-radius: 30px;
+  background-color: #1c1c21;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.close_button {
+  background: none;
+  border: none;
+}
+
+.close_button:active {
+  opacity: 0.6;
+}
+
+.image {
+  background-color: rgba(0, 0, 255, 0.2);
+  width: 520px;
+  height: 240px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  column-gap: 20px;
+}
+
+.item {
+  text-align: center;
+}

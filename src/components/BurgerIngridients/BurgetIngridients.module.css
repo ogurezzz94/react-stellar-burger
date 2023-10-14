@@ -1,0 +1,10 @@
+.burgerIngridients {
+  composes: blue_border from "../app/app.module.css";
+  border-top: 0;
+  background-color: #131316;
+
+  width: 600px;
+
+  display: flex;
+  flex-direction: column;
+}

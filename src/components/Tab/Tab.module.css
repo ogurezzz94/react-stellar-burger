@@ -1,0 +1,9 @@
+.button {
+  background: none;
+  border: none;
+  padding: 16px 76px;
+}
+
+.button:active {
+  opacity: 0.6;
+}
