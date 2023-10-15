@@ -6,21 +6,26 @@ import BurgerIngridients from "../BurgerIngridients/BurgerIngridients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Overlay from "../Overlay/Overlay";
 
+const ingridientsLink = {
+  link: "https://norma.nomoreparties.space/api/ingredients",
+  met: "get",
+};
+
 export default function App() {
   const [ingridients, setIngridients] = useState();
   useEffect(() => {
-    getIngridientsApi().then((res) => {
+    getIngridientsApi(ingridientsLink).then((res) => {
       setIngridients(res.data);
     });
   }, []);
   console.log(ingridients);
 
   return (
-    <div className={`${styles.app} pt-10 pb-10 pl-10 pr-10`}>
+    <div className={`${styles.app}`}>
       <Header />
       <BurgerIngridients />
       <BurgerConstructor />
-      <Overlay />
+      {/* <Overlay /> */}
     </div>
   );
 }

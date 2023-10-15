@@ -1,6 +1,6 @@
-export const getIngridientsApi = async () => {
-  const res = await fetch("https://norma.nomoreparties.space/api/ingredients", {
-    method: "GET",
+export const getIngridientsApi = async ({link, met}) => {
+  const res = await fetch(link, {
+    method: met.toUpperCase(),
   });
   if (res.ok) {
     return res.json();

@@ -1,10 +1,15 @@
 .burgerIngridients {
-  composes: blue_border from "../app/app.module.css";
   border-top: 0;
   background-color: #131316;
 
   width: 600px;
+  height: 80vh;
 
   display: flex;
   flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
 }

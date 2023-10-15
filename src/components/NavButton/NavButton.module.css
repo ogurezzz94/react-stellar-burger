@@ -1,0 +1,13 @@
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  row-gap: 8px;
+  width: 207px;
+  height: 56px;
+}
+
+.button {
+  background: none;
+  border: none;
+}
