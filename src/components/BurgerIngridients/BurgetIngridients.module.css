@@ -2,7 +2,7 @@
   border-top: 0;
   background-color: #131316;
 
-  width: 600px;
+  max-width: 600px;
   height: 80vh;
 
   display: flex;

@@ -6,43 +6,79 @@ import {
 import styles from "./BurgerConstructor.module.css";
 import TotalPrice from "../TotalPrice/TotalPrice";
 
-export default function BurgerConstructor() {
+export default function BurgerConstructor({ bun, main, setOrder }) {
+  const orderNum = (Math.random() * 1000000).toFixed();
+  const purchase = () => {
+    setOrder(orderNum);
+  };
   return (
     <div className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}>
-      <div className={`${styles.burger_section} pb-10`}>
-        <div className="ml-8">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-          />
+      {bun ? (
+        <div className={`${styles.burger_section} pb-10`}>
+          <>
+            <div className="ml-8 pb-2">
+              <ConstructorElement
+                thumbnail={`${bun.image_mobile}`}
+                type="top"
+                isLocked={true}
+                text={`${bun.name} (верх)`}
+                price={`${bun.price}`}
+              />
+            </div>
+            <ul className={`${styles.list}`}>
+              {main.map((e, index) => {
+                return (
+                  <li key={index} className={`${styles.item}`}>
+                    <DragIcon type="primary" />
+                    <ConstructorElement
+                      text={`${e.name}`}
+                      price={`${e.price}`}
+                      thumbnail={`${e.image_mobile}`}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="ml-8 pt-2">
+              <ConstructorElement
+                thumbnail={`${bun.image_mobile}`}
+                type="bottom"
+                isLocked={true}
+                text={`${bun.name} (низ)`}
+                price={`${bun.price}`}
+              />
+            </div>
+          </>
         </div>
-
-        <ul className={`${styles.list}`}>
-          <li className={`${styles.item}`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-            />
-          </li>
-          <li  className={`${styles.item}`}>
-            <div className={`${styles.test}`}></div>
-          </li>
-        </ul>
-        <div className="ml-8">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-          />
+      ) : (
+        <div className={`${styles.empty} `}>
+          <p
+            className={`${styles.text} text text_type_main-default text_color_inactive`}
+          >
+            Здесь пусто.
+          </p>
+          <p
+            className={`${styles.text} text text_type_main-default text_color_inactive`}
+          >
+            Выберите ингредиенты для бургера,
+            <br />
+            нажав ПКМ на их карточку.(dnd будет позже)
+          </p>
+          <p
+            className={`${styles.text} text text_type_main-default text_color_inactive`}
+          >
+            Не забудьте, добавить булки!
+          </p>
         </div>
-      </div>
+      )}
       <div className={`${styles.price_section}`}>
-        <TotalPrice />
-        <Button htmlType="button" type="primary" size="large">
+        <TotalPrice setOrder={setOrder} />
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={purchase}
+        >
           Оформить заказ
         </Button>
       </div>

@@ -18,14 +18,44 @@ export default function App() {
       setIngridients(res.data);
     });
   }, []);
-  console.log(ingridients);
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        setOrder();
+        setSelected();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
+
+  const [bun, setBun] = useState();
+  const [main, setMain] = useState([]);
+  const [selected, setSelected] = useState();
+  const [order, setOrder] = useState();
 
   return (
     <div className={`${styles.app}`}>
       <Header />
-      <BurgerIngridients />
-      <BurgerConstructor />
-      {/* <Overlay /> */}
+      <BurgerIngridients
+        ingridients={ingridients}
+        setBun={setBun}
+        setMain={setMain}
+        main={main}
+        setSelected={setSelected}
+      />
+      <BurgerConstructor bun={bun} main={main} setOrder={setOrder} />
+      {(selected || order) && (
+        <Overlay
+          selected={selected}
+          setSelected={setSelected}
+          order={order}
+          setOrder={setOrder}
+        />
+      )}
     </div>
   );
 }
