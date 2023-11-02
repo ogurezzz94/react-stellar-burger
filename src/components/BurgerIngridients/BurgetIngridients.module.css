@@ -1,0 +1,15 @@
+.burgerIngridients {
+  border-top: 0;
+  background-color: #131316;
+
+  max-width: 600px;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+}

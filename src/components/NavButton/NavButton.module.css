@@ -1,0 +1,16 @@
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  row-gap: 8px;
+  width: 207px;
+  height: 56px;
+
+  text-decoration: none;
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
