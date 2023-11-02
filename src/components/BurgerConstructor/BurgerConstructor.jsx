@@ -5,8 +5,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
 import TotalPrice from "../TotalPrice/TotalPrice";
+import Modal from "../Modal/Modal";
+import ModalOrderAccepted from "../ModalOrderAccepted/ModalOrderAccepted";
 
-export default function BurgerConstructor({ bun, main, setOrder }) {
+export default function BurgerConstructor({ bun, main,order, setOrder }) {
   const orderNum = (Math.random() * 1000000).toFixed();
   const purchase = () => {
     setOrder(orderNum);
@@ -82,6 +84,9 @@ export default function BurgerConstructor({ bun, main, setOrder }) {
           Оформить заказ
         </Button>
       </div>
+      <Modal content={order} setter={setOrder}>
+        <ModalOrderAccepted order={order}/>
+      </Modal>
     </div>
   );
 }

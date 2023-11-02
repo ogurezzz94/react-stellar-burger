@@ -1,17 +1,10 @@
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ModalIngridientInfo.module.css";
 
-export default function ModalIngridientInfo({ selected, setSelected }) {
-  const close = () => {
-    setSelected()
-  };
+export default function ModalIngridientInfo({ selected }) {
   return (
-    <div className={`${styles.popup} pl-10 pt-10 pr-10`}>
+    <div className={`${styles.section} pt-10 pl-10 pr-10 pb-15`}>
       <div className={`${styles.title}`}>
         <p className="text text_type_main-large">Детали ингридиента</p>
-        <button className={`${styles.close_button}`}>
-          <CloseIcon type="primary" onClick={close} />
-        </button>
       </div>
       <img
         className={`${styles.image}`}

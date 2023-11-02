@@ -1,0 +1,20 @@
+.popup {
+  position: relative;
+  width: 720px;
+
+  border-radius: 30px;
+  background-color: #1c1c21;
+}
+
+.close_button {
+  z-index: 1;
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  background: none;
+  border: none;
+}
+
+.close_button:active {
+  opacity: 0.6;
+}

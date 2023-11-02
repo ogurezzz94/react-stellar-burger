@@ -10,9 +10,9 @@ import NavButton from "../NavButton/NavButton";
 export default function Header() {
   return (
     <nav className={`${styles.header} pt-4 pb-4`}>
-      <div className={`${styles.logo}`}>
-        <Logo className={`mb-10`}></Logo>
-      </div>
+      <a href="blank" className={`${styles.logo}`}>
+        <Logo className={`mb-10`} />
+      </a>
       <ul className={`${styles.list}`}>
         <li>
           <NavButton

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import BurgerIngridients from "../BurgerIngridients/BurgerIngridients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import Overlay from "../Overlay/Overlay";
 
 const ingridientsLink = {
   link: "https://norma.nomoreparties.space/api/ingredients",
@@ -17,19 +16,6 @@ export default function App() {
     getIngridientsApi(ingridientsLink).then((res) => {
       setIngridients(res.data);
     });
-  }, []);
-
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        setOrder();
-        setSelected();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
   }, []);
 
   const [bun, setBun] = useState();
@@ -46,16 +32,14 @@ export default function App() {
         setMain={setMain}
         main={main}
         setSelected={setSelected}
+        selected={selected}
       />
-      <BurgerConstructor bun={bun} main={main} setOrder={setOrder} />
-      {(selected || order) && (
-        <Overlay
-          selected={selected}
-          setSelected={setSelected}
-          order={order}
-          setOrder={setOrder}
-        />
-      )}
+      <BurgerConstructor
+        bun={bun}
+        main={main}
+        setOrder={setOrder}
+        order={order}
+      />
     </div>
   );
 }

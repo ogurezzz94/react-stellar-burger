@@ -1,7 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingridients from "../Ingridients/Ingridients";
+import Modal from "../Modal/Modal";
 import styles from "./BurgetIngridients.module.css";
 import { useState } from "react";
+import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
 
 const titles = [
   { ru: "Булки", en: "bun" },
@@ -15,8 +17,15 @@ export default function BurgerIngridients({
   setMain,
   main,
   setSelected,
+  selected,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollDown = (index) => {
+    setActiveIndex(index);
+    window.location.href = `#${index}`;
+    // document.getElementById(`${index}`).scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div className={`pt-10 ${styles.burgerIngridients}`}>
@@ -25,10 +34,7 @@ export default function BurgerIngridients({
         {titles.map((e, index) => (
           <Tab
             active={index === activeIndex}
-            onClick={() => {
-              setActiveIndex(index);
-              window.location.href = `#${index}`;
-            }}
+            onClick={() => scrollDown(index)}
             value="one"
             key={index}
           >
@@ -45,6 +51,9 @@ export default function BurgerIngridients({
         main={main}
         setSelected={setSelected}
       />
+      <Modal content={selected} setter={setSelected}>
+        <ModalIngridientInfo selected={selected} />
+      </Modal>
     </div>
   );
 }

@@ -1,15 +1,7 @@
-.popup {
-  position: relative;
-  width: 720px;
-  height: 540px;
-
+.section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-
-  border-radius: 30px;
-  background-color: #1c1c21;
 }
 
 .title {
@@ -17,15 +9,6 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-}
-
-.close_button {
-  background: none;
-  border: none;
-}
-
-.close_button:active {
-  opacity: 0.6;
 }
 
 .image {
