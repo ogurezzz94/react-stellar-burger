@@ -1,14 +1,17 @@
+import { useSelector } from "react-redux";
+import { ingridientsSelector } from "../../store/ingridientsSlice";
 import IngridientCard from "../IngridientCard/IngridientCard";
 import styles from "./Ingridients.module.css";
 
 export default function Ingridients({
   titles,
-  ingridients,
+
   setBun,
   setMain,
   main,
   setSelected,
 }) {
+  const ingridients = useSelector(ingridientsSelector);
   return (
     <div className={`${styles.ingridients} pt-5`}>
       {titles.map((e, index) => {

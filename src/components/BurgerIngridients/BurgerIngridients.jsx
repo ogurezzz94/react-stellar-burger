@@ -4,6 +4,8 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgetIngridients.module.css";
 import { useState } from "react";
 import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
+import { ingridientsIsLoading } from "../../store/ingridientsSlice";
+import { useSelector } from "react-redux";
 
 const titles = [
   { ru: "Булки", en: "bun" },
@@ -19,6 +21,7 @@ export default function BurgerIngridients({
   setSelected,
   selected,
 }) {
+  const isLoading = useSelector(ingridientsIsLoading);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollDown = (index) => {
@@ -42,18 +45,22 @@ export default function BurgerIngridients({
           </Tab>
         ))}
       </div>
-      <Ingridients
-        titles={titles}
-        activeIndex={activeIndex}
-        ingridients={ingridients}
-        setBun={setBun}
-        setMain={setMain}
-        main={main}
-        setSelected={setSelected}
-      />
-      <Modal content={selected} setter={setSelected}>
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        <Ingridients
+          titles={titles}
+          activeIndex={activeIndex}
+          ingridients={ingridients}
+          setBun={setBun}
+          setMain={setMain}
+          main={main}
+          setSelected={setSelected}
+        />
+      )}
+      {/* <Modal content={selected} setter={setSelected}>
         <ModalIngridientInfo selected={selected} />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
