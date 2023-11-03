@@ -1,11 +1,15 @@
+import styles from "./BurgetIngridients.module.css";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  ingridientsIsLoading,
+  ingridientsSelector,
+} from "../../store/ingridientsSlice";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingridients from "../Ingridients/Ingridients";
 import Modal from "../Modal/Modal";
-import styles from "./BurgetIngridients.module.css";
-import { useState } from "react";
 import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
-import { ingridientsIsLoading } from "../../store/ingridientsSlice";
-import { useSelector } from "react-redux";
+import { infoSelector } from "../../store/infoSlice";
 
 const titles = [
   { ru: "Булки", en: "bun" },
@@ -13,15 +17,10 @@ const titles = [
   { ru: "Начинки", en: "main" },
 ];
 
-export default function BurgerIngridients({
-  ingridients,
-  setBun,
-  setMain,
-  main,
-  setSelected,
-  selected,
-}) {
+export default function BurgerIngridients() {
   const isLoading = useSelector(ingridientsIsLoading);
+  const ingridients = useSelector(ingridientsSelector);
+  const info = useSelector(infoSelector);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollDown = (index) => {
@@ -46,21 +45,13 @@ export default function BurgerIngridients({
         ))}
       </div>
       {isLoading ? (
-        <p>Loading</p>
+        <p className={`text text_type_main-medium`}>Загрузка</p>
       ) : (
-        <Ingridients
-          titles={titles}
-          activeIndex={activeIndex}
-          ingridients={ingridients}
-          setBun={setBun}
-          setMain={setMain}
-          main={main}
-          setSelected={setSelected}
-        />
+        <Ingridients titles={titles} ingridients={ingridients} />
       )}
-      {/* <Modal content={selected} setter={setSelected}>
-        <ModalIngridientInfo selected={selected} />
-      </Modal> */}
+      <Modal>
+        <ModalIngridientInfo data={info} />
+      </Modal>
     </div>
   );
 }

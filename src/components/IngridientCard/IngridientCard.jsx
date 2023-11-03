@@ -1,40 +1,44 @@
-import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./IngridientCard.module.css";
+import { useDispatch } from "react-redux";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import { addBun, addMain, countPrice } from "../../store/builderSlice";
+import { openModal } from "../../store/modalSlice";
+import { addInfo } from "../../store/infoSlice";
 import Price from "../Price/Price";
 
-export default function IngridientCard({
-  el,
-  setBun,
-  setMain,
-  main,
-  setSelected,
-}) {
-  const counter = 1;
-  const addToList = (e) => {
+export default function IngridientCard({ item }) {
+  const dispatch = useDispatch();
+  const counter = 0;
+
+  const addToConstructor = (e) => {
     e.preventDefault();
-    if (el.type === "bun") {
-      setBun(el);
-    } else {
-      setMain([...main, el]);
-    }
+
+    dispatch(item.type === "bun" ? addBun(item) : addMain(item));
+    dispatch(countPrice());
   };
 
-  const select = () => setSelected(el);
+  const showInfo = (e) => {
+    e.preventDefault();
+    dispatch(addInfo(item));
+    dispatch(openModal());
+  };
 
   return (
     <div
       className={`${styles.card}`}
-      onContextMenu={addToList}
-      onClick={select}
+      onContextMenu={(e) => addToConstructor(e)}
+      onClick={(e) => showInfo(e)}
     >
-      {counter && <Counter count={counter} size="default" extraClass="m-1" />}
+      {counter ? (
+        <Counter count={counter} size="default" extraClass="m-1" />
+      ) : null}
       <img
-        src={el.image}
-        alt={el.name}
+        src={item.image}
+        alt={item.name}
         className={`${styles.image} ml-4 mr-4`}
       ></img>
-      <Price num={el.price} />
-      <h4 className={`text text_type_main-default`}>{el.name}</h4>
+      <Price num={item.price} />
+      <h4 className={`text text_type_main-default`}>{item.name}</h4>
     </div>
   );
 }
