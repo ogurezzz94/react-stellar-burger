@@ -2,7 +2,7 @@ import styles from "./IngridientCard.module.css";
 import { useDispatch } from "react-redux";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { addBun, addMain, countPrice } from "../../store/builderSlice";
-import { openModal } from "../../store/modalSlice";
+import { openModalInfo } from "../../store/modalSlice";
 import { addInfo } from "../../store/infoSlice";
 import Price from "../Price/Price";
 
@@ -12,7 +12,6 @@ export default function IngridientCard({ item }) {
 
   const addToConstructor = (e) => {
     e.preventDefault();
-
     dispatch(item.type === "bun" ? addBun(item) : addMain(item));
     dispatch(countPrice());
   };
@@ -20,7 +19,7 @@ export default function IngridientCard({ item }) {
   const showInfo = (e) => {
     e.preventDefault();
     dispatch(addInfo(item));
-    dispatch(openModal());
+    dispatch(openModalInfo());
   };
 
   return (

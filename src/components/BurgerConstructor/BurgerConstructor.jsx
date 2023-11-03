@@ -14,15 +14,19 @@ import {
   mainBuilderSelector,
   priceSelector,
 } from "../../store/builderSlice";
-import { openModal } from "../../store/modalSlice";
+import {
+  modalPurchaseSelector,
+  openPurchaseModal,
+} from "../../store/modalSlice";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const main = useSelector(mainBuilderSelector);
   const bun = useSelector(bunBuilderSelector);
   const price = useSelector(priceSelector);
+  const opened = useSelector(modalPurchaseSelector);
   const purchase = () => {
-    dispatch(openModal())
+    dispatch(openPurchaseModal());
   };
   return (
     <div className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}>
@@ -77,9 +81,11 @@ export default function BurgerConstructor() {
           </Button>
         </div>
       ) : undefined}
-      <Modal >
-        <ModalOrderAccepted order={'123456'} />
-      </Modal>
+      {opened && (
+        <Modal>
+          <ModalOrderAccepted order={"123456"} />
+        </Modal>
+      )}
     </div>
   );
 }

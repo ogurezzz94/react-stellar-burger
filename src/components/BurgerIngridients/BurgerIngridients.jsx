@@ -6,10 +6,11 @@ import {
   ingridientsSelector,
 } from "../../store/ingridientsSlice";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
+import { modalInfoSelector } from "../../store/modalSlice";
+import { infoSelector } from "../../store/infoSlice";
 import Ingridients from "../Ingridients/Ingridients";
 import Modal from "../Modal/Modal";
-import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
-import { infoSelector } from "../../store/infoSlice";
 
 const titles = [
   { ru: "Булки", en: "bun" },
@@ -18,6 +19,7 @@ const titles = [
 ];
 
 export default function BurgerIngridients() {
+  const opened = useSelector(modalInfoSelector);
   const isLoading = useSelector(ingridientsIsLoading);
   const ingridients = useSelector(ingridientsSelector);
   const info = useSelector(infoSelector);
@@ -49,9 +51,11 @@ export default function BurgerIngridients() {
       ) : (
         <Ingridients titles={titles} ingridients={ingridients} />
       )}
-      <Modal>
-        <ModalIngridientInfo data={info} />
-      </Modal>
+      {opened && (
+        <Modal>
+          <ModalIngridientInfo data={info} />
+        </Modal>
+      )}
     </div>
   );
 }

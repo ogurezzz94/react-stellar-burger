@@ -1,23 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const modalSelector = (store) => store.modal.isOpen;
+export const modalInfoSelector = (store) => store.modal.info;
+export const modalPurchaseSelector = (store) => store.modal.purchase;
 
 const initialState = {
-  isOpen: false,
+  info: false,
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (store) => {
-      store.isOpen = !store.isOpen;
+    openModalInfo: (store) => {
+      store.info = true;
+    },
+    openPurchaseModal: (store) => {
+      store.purchase = true;
     },
     closeModal: (store) => {
-      store.isOpen = false;
+      store.info = false;
+      store.purchase = false;
     },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModalInfo, openPurchaseModal, closeModal } =
+  modalSlice.actions;
 export default modalSlice.reducer;
