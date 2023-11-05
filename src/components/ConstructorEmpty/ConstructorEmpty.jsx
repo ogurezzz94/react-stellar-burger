@@ -6,19 +6,13 @@ export default function ConstructorEmpty() {
       <p
         className={`${styles.text} text text_type_main-default text_color_inactive`}
       >
-        Здесь пусто.
-      </p>
-      <p
-        className={`${styles.text} text text_type_main-default text_color_inactive`}
-      >
-        Выберите ингредиенты для бургера,
+        🤔Без ингредиендов - бургер не приготовить🥴
         <br />
-        нажав ПКМ на их карточку.(dnd будет позже)
-      </p>
-      <p
-        className={`${styles.text} text text_type_main-default text_color_inactive`}
-      >
-        Не забудьте, добавить булки!
+        Перетаскивайте ингредиенты,
+        <br />
+        чтобы добавить их в бургер.
+        <br />
+        Начните с булок!
       </p>
     </div>
   );

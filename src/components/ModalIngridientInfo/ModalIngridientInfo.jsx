@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
+import { infoSelector } from "../../store/infoSlice";
 import styles from "./ModalIngridientInfo.module.css";
 
-export default function ModalIngridientInfo({ data }) {
+export default function ModalIngridientInfo() {
+  const data = useSelector(infoSelector);
   return (
     <div className={`${styles.section} pt-10 pl-10 pr-10 pb-15`}>
       <div className={`${styles.title}`}>

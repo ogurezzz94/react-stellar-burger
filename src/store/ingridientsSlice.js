@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getIngridients } from "./thunks/ingridients";
-import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export const ingridientsSelector = (store) => store.ingridients.data;
 export const ingridientsIsLoading = (store) => store.ingridients.loading;
@@ -17,7 +16,6 @@ const initialState = {
 const ingridientsSlice = createSlice({
   name: "ingridients",
   initialState,
-  reducers: {},
   extraReducers: {
     [getIngridients.fulfilled.type]: (state, action) => {
       state.loading = false;
@@ -36,7 +34,6 @@ const ingridientsSlice = createSlice({
       state.errorMassage = action.payload;
     },
   },
-
 });
 
 // export const { dataLoaded, dataLoading, dataError } = ingridientsSlice.actions;

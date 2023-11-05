@@ -1,14 +1,14 @@
 import styles from "./BurgetIngridients.module.css";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ingridientsIsLoading,
   ingridientsSelector,
 } from "../../store/ingridientsSlice";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
 import { modalInfoSelector } from "../../store/modalSlice";
-import { infoSelector } from "../../store/infoSlice";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { getIngridients } from "../../store/thunks/ingridients";
+import ModalIngridientInfo from "../ModalIngridientInfo/ModalIngridientInfo";
 import Ingridients from "../Ingridients/Ingridients";
 import Modal from "../Modal/Modal";
 
@@ -19,17 +19,20 @@ const titles = [
 ];
 
 export default function BurgerIngridients() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngridients());
+  }, []);
   const opened = useSelector(modalInfoSelector);
   const isLoading = useSelector(ingridientsIsLoading);
   const ingridients = useSelector(ingridientsSelector);
-  const info = useSelector(infoSelector);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollDown = (index) => {
     setActiveIndex(index);
     window.location.href = `#${index}`;
     // document.getElementById(`${index}`).scrollIntoView({ behavior: "smooth" });
-  };
+};
 
   return (
     <div className={`pt-10 ${styles.burgerIngridients}`}>
@@ -53,7 +56,7 @@ export default function BurgerIngridients() {
       )}
       {opened && (
         <Modal>
-          <ModalIngridientInfo data={info} />
+          <ModalIngridientInfo />
         </Modal>
       )}
     </div>

@@ -1,5 +1,6 @@
 import styles from "./IngridientCard.module.css";
 import { useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { addBun, addMain, countPrice } from "../../store/builderSlice";
 import { openModalInfo } from "../../store/modalSlice";
@@ -9,6 +10,11 @@ import Price from "../Price/Price";
 export default function IngridientCard({ item }) {
   const dispatch = useDispatch();
   const counter = 0;
+
+  const [, dragRef] = useDrag({
+    type: `${item.type}`,
+    item: item,
+  });
 
   const addToConstructor = (e) => {
     e.preventDefault();
@@ -27,6 +33,7 @@ export default function IngridientCard({ item }) {
       className={`${styles.card}`}
       onContextMenu={(e) => addToConstructor(e)}
       onClick={(e) => showInfo(e)}
+      ref={dragRef}
     >
       {counter ? (
         <Counter count={counter} size="default" extraClass="m-1" />

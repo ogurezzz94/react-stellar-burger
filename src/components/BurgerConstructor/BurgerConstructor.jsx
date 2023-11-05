@@ -1,23 +1,29 @@
+import styles from "./BurgerConstructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
 import {
   Button,
-  ConstructorElement,
   DragIcon,
+  ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./BurgerConstructor.module.css";
-import TotalPrice from "../TotalPrice/TotalPrice";
-import Modal from "../Modal/Modal";
-import ModalOrderAccepted from "../ModalOrderAccepted/ModalOrderAccepted";
-import ConstructorEmpty from "../ConstructorEmpty/ConstructorEmpty";
-import { useDispatch, useSelector } from "react-redux";
 import {
+  addBun,
+  addMain,
+  countPrice,
+  priceSelector,
   bunBuilderSelector,
   mainBuilderSelector,
-  priceSelector,
+  deleteItem,
 } from "../../store/builderSlice";
 import {
   modalPurchaseSelector,
   openPurchaseModal,
 } from "../../store/modalSlice";
+import Modal from "../Modal/Modal";
+import TotalPrice from "../TotalPrice/TotalPrice";
+import ConstructorEmpty from "../ConstructorEmpty/ConstructorEmpty";
+import ModalOrderAccepted from "../ModalOrderAccepted/ModalOrderAccepted";
+import { postOrder } from "../../store/thunks/order";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -25,11 +31,53 @@ export default function BurgerConstructor() {
   const bun = useSelector(bunBuilderSelector);
   const price = useSelector(priceSelector);
   const opened = useSelector(modalPurchaseSelector);
+
   const purchase = () => {
     dispatch(openPurchaseModal());
+    dispatch(
+      postOrder(
+        [bun._id].concat(
+          main.map((e) => {
+            return e._id;
+          })
+        )
+      )
+    );
   };
+
+  const [, dropRef] = useDrop({
+    accept: "bun",
+    drop(bun) {
+      dispatch(addBun(bun));
+      dispatch(countPrice());
+    },
+  });
+  const [, dropRef2] = useDrop({
+    accept: ["main", "sauce"],
+    drop(main) {
+      dispatch(addMain(main));
+      dispatch(countPrice());
+    },
+  });
+
+  const onDelete = (item) => {
+    dispatch(deleteItem(item));
+  };
+
+  // const [, dragRef] = useDrag({
+  //   type: `list`,
+  //   item: main,
+  // });
+
   return (
-    <div className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}>
+    <div
+      className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}
+      onDragOver={(e) => e.preventDefault()}
+      ref={(el) => {
+        dropRef(el);
+        dropRef2(el);
+      }}
+    >
       {bun ? (
         <div className={`${styles.burger_section} pb-10`}>
           <div className="ml-8 pb-2">
@@ -50,6 +98,7 @@ export default function BurgerConstructor() {
                     text={`${e.name}`}
                     price={`${e.price}`}
                     thumbnail={`${e.image_mobile}`}
+                    handleClose={() => onDelete(e)}
                   />
                 </li>
               );
@@ -83,7 +132,7 @@ export default function BurgerConstructor() {
       ) : undefined}
       {opened && (
         <Modal>
-          <ModalOrderAccepted order={"123456"} />
+          <ModalOrderAccepted />
         </Modal>
       )}
     </div>

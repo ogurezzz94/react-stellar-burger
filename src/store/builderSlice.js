@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uniqId } from "uuid";
 
 export const builderSelector = (store) => store.builder.data;
 export const bunBuilderSelector = (store) => store.builder.data.bun;
@@ -10,6 +11,7 @@ const initialState = {
     bun: null,
     main: [],
   },
+  productQty: null,
   totalPrice: 0,
 };
 
@@ -21,15 +23,21 @@ const builderSlice = createSlice({
       store.data.bun = action.payload;
     },
     addMain: (store, action) => {
-      if (store.data.bun) store.data.main.push(action.payload);
+      const item = { ...action.payload, uniqId: uniqId() };
+      if (store.data.bun) store.data.main.push(item);
     },
     countPrice: (store) => {
       store.totalPrice =
         store.data.main?.reduce((acc, item) => acc + item?.price, 0) +
         (store.data.bun ? store.data.bun.price * 2 : 0);
     },
+    deleteItem: (store, action) => {
+      store.data.main = store.data.main.filter(
+        (e) => e.uniqId !== action.payload.uniqId
+      );
+    },
   },
 });
 
-export const { addBun, addMain, countPrice } = builderSlice.actions;
+export const { addBun, addMain, countPrice, deleteItem } = builderSlice.actions;
 export default builderSlice.reducer;
