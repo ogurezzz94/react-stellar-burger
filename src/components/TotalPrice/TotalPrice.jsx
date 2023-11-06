@@ -1,7 +1,7 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./TotalPrice.module.css";
 
-export default function TotalPrice({num}) {
+export default function TotalPrice({ num }) {
   return (
     <div className={`${styles.total_price} pr-10`}>
       <p className={`${styles.number} text text_type_digits-medium`}>{num}</p>

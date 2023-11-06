@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux";
 import IngridientCard from "../IngridientCard/IngridientCard";
 import styles from "./Ingridients.module.css";
+import { ingridientsSelector } from "../../store/ingridientsSlice";
 
-export default function Ingridients({ titles, ingridients }) {
+export default function Ingridients({ titles }) {
+  const ingridients = useSelector(ingridientsSelector);
   const list = (e) => {
     return ingridients
       ?.filter((i) => i.type === e.en)

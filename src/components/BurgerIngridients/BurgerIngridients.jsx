@@ -1,10 +1,7 @@
 import styles from "./BurgetIngridients.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ingridientsIsLoading,
-  ingridientsSelector,
-} from "../../store/ingridientsSlice";
+import { ingridientsIsLoading } from "../../store/ingridientsSlice";
 import { modalInfoSelector } from "../../store/modalSlice";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getIngridients } from "../../store/thunks/ingridients";
@@ -25,14 +22,14 @@ export default function BurgerIngridients() {
   }, []);
   const opened = useSelector(modalInfoSelector);
   const isLoading = useSelector(ingridientsIsLoading);
-  const ingridients = useSelector(ingridientsSelector);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollDown = (index) => {
     setActiveIndex(index);
     window.location.href = `#${index}`;
     // document.getElementById(`${index}`).scrollIntoView({ behavior: "smooth" });
-};
+  };
 
   return (
     <div className={`pt-10 ${styles.burgerIngridients}`}>
@@ -52,7 +49,7 @@ export default function BurgerIngridients() {
       {isLoading ? (
         <p className={`text text_type_main-medium`}>Загрузка</p>
       ) : (
-        <Ingridients titles={titles} ingridients={ingridients} />
+        <Ingridients titles={titles} />
       )}
       {opened && (
         <Modal>

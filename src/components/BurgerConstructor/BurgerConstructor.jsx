@@ -14,6 +14,7 @@ import {
   bunBuilderSelector,
   mainBuilderSelector,
   deleteItem,
+  reset,
 } from "../../store/builderSlice";
 import {
   modalPurchaseSelector,
@@ -43,6 +44,7 @@ export default function BurgerConstructor() {
         )
       )
     );
+    dispatch(reset());
   };
 
   const [, dropRef] = useDrop({

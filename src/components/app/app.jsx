@@ -4,6 +4,7 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Header from "../Header/Header";
 
 export default function App() {
+  
   return (
     <div className={`${styles.app}`}>
       <Header />

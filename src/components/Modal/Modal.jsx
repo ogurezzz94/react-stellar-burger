@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../store/modalSlice";
+import { removeInfo } from "../../store/infoSlice";
 import Overlay from "../Overlay/Overlay";
 import Popup from "../Popup/Popup";
 
@@ -15,6 +16,8 @@ export default function Modal({ children }) {
     e.preventDefault();
     e.stopPropagation();
     dispatch(closeModal());
+    dispatch(removeInfo());
+    // window.removeEventListener("keydown", handleEsc);
   };
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export default function Modal({ children }) {
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  });
   return createPortal(
     <>
       <div className={`${styles.modal}`}>

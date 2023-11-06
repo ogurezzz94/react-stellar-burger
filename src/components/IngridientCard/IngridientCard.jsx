@@ -1,15 +1,31 @@
 import styles from "./IngridientCard.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import { addBun, addMain, countPrice } from "../../store/builderSlice";
+import {
+  addBun,
+  addMain,
+  bunBuilderSelector,
+  countPrice,
+  mainBuilderSelector,
+} from "../../store/builderSlice";
 import { openModalInfo } from "../../store/modalSlice";
 import { addInfo } from "../../store/infoSlice";
 import Price from "../Price/Price";
 
 export default function IngridientCard({ item }) {
   const dispatch = useDispatch();
-  const counter = 0;
+  const main = useSelector(mainBuilderSelector);
+  const bun = useSelector(bunBuilderSelector);
+  const arr = main.concat(bun);
+
+  const qtyCounter = (a) => {
+    const arr = a.filter((el) => {
+      if (el) return el.name === item.name;
+    });
+    const num = arr.reduce((acc, el) => (acc += el.qty), 0);
+    return num;
+  };
 
   const [, dragRef] = useDrag({
     type: `${item.type}`,
@@ -35,8 +51,8 @@ export default function IngridientCard({ item }) {
       onClick={(e) => showInfo(e)}
       ref={dragRef}
     >
-      {counter ? (
-        <Counter count={counter} size="default" extraClass="m-1" />
+      {qtyCounter(arr) ? (
+        <Counter count={qtyCounter(arr)} size="default" extraClass="m-1" />
       ) : null}
       <img
         src={item.image}
