@@ -1,29 +1,22 @@
 import styles from "./Modal.module.css";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useDispatch } from "react-redux";
-import { closeModal } from "../../store/modalSlice";
-import { removeInfo } from "../../store/infoSlice";
 import Overlay from "../Overlay/Overlay";
-import Popup from "../Popup/Popup";
+import ModalBody from "../ModalBody/ModalBody";
 
 const modal = document.querySelector("#modal");
 
-export default function Modal({ children }) {
-  const dispatch = useDispatch();
-
-  const onClose = (e) => {
+export default function Modal({ children, onClose }) {
+  const handleBtn = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(closeModal());
-    dispatch(removeInfo());
-    // window.removeEventListener("keydown", handleEsc);
+    onClose();
   };
 
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
-        dispatch(closeModal());
+        onClose();
       }
     };
     window.addEventListener("keydown", handleEsc);
@@ -32,12 +25,10 @@ export default function Modal({ children }) {
     };
   });
   return createPortal(
-    <>
-      <div className={`${styles.modal}`}>
-        <Overlay onClose={onClose} />
-        <Popup onClose={onClose}>{children}</Popup>
-      </div>
-    </>,
+    <div className={`${styles.modal}`}>
+      <Overlay onClose={handleBtn} />
+      <ModalBody onClose={handleBtn}>{children}</ModalBody>
+    </div>,
     modal
   );
 }

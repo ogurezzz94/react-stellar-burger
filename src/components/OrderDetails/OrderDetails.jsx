@@ -1,9 +1,9 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./ModalOrderAccepted.module.css";
+import styles from "./OrderDetails.module.css";
 import { useSelector } from "react-redux";
 import { orderSelector } from "../../store/orderDetalsSlice";
 
-export default function ModalOrderAccepted() {
+export default function OrderDetails() {
   const data = useSelector(orderSelector);
   return (
     <div className={`${styles.section} pt-30 pb-30`}>

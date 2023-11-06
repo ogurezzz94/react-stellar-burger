@@ -39,6 +39,7 @@ const builderSlice = createSlice({
     reset: (store) => {
       store.data.bun = initialState.data.bun;
       store.data.main = initialState.data.main;
+      store.totalPrice = initialState.totalPrice;
     },
   },
 });

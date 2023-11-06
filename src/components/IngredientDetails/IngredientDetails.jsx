@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { infoSelector } from "../../store/infoSlice";
-import styles from "./ModalIngridientInfo.module.css";
+import styles from "./IngredientDetails.module.css";
 
-export default function ModalIngridientInfo() {
+export default function IngredientDetails() {
   const data = useSelector(infoSelector);
   return (
     <div className={`${styles.section} pt-10 pl-10 pr-10 pb-15`}>

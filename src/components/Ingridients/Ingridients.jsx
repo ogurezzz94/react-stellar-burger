@@ -8,7 +8,7 @@ export default function Ingridients({ titles }) {
   const list = (e) => {
     return ingridients
       ?.filter((i) => i.type === e.en)
-      .map((el, index) => <IngridientCard item={el} key={index} />);
+      .map((el) => <IngridientCard item={el} key={el._id} />);
   };
 
   return (

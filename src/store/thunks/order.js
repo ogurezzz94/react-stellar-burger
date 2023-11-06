@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { checkResponse } from "../../utils/checkResponse";
 
 export const postOrder = createAsyncThunk(
   "order/post",
@@ -12,12 +13,6 @@ export const postOrder = createAsyncThunk(
         "Content-Type": "application/json",
       },
     });
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(
-        `ошибка ответа сервера, статус: ${res.status}, ${res}`
-      );
-    }
+    return await checkResponse(res);
   }
 );

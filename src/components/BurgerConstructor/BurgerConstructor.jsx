@@ -17,14 +17,15 @@ import {
   reset,
 } from "../../store/builderSlice";
 import {
+  closeModal,
   modalPurchaseSelector,
   openPurchaseModal,
 } from "../../store/modalSlice";
 import Modal from "../Modal/Modal";
 import TotalPrice from "../TotalPrice/TotalPrice";
 import ConstructorEmpty from "../ConstructorEmpty/ConstructorEmpty";
-import ModalOrderAccepted from "../ModalOrderAccepted/ModalOrderAccepted";
 import { postOrder } from "../../store/thunks/order";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -32,6 +33,10 @@ export default function BurgerConstructor() {
   const bun = useSelector(bunBuilderSelector);
   const price = useSelector(priceSelector);
   const opened = useSelector(modalPurchaseSelector);
+
+  const onClose = (e) => {
+    dispatch(closeModal());
+  };
 
   const purchase = () => {
     dispatch(openPurchaseModal());
@@ -92,9 +97,9 @@ export default function BurgerConstructor() {
             />
           </div>
           <ul className={`${styles.list}`}>
-            {main.map((e, index) => {
+            {main.map((e) => {
               return (
-                <li key={index} className={`${styles.item}`}>
+                <li key={e.uniqId} className={`${styles.item}`}>
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={`${e.name}`}
@@ -133,8 +138,8 @@ export default function BurgerConstructor() {
         </div>
       ) : undefined}
       {opened && (
-        <Modal>
-          <ModalOrderAccepted />
+        <Modal onClose={onClose}>
+          <OrderDetails />
         </Modal>
       )}
     </div>
