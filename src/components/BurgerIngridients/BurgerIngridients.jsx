@@ -5,26 +5,28 @@ import { ingridientsIsLoading } from "../../store/ingridientsSlice";
 import { closeModal, modalInfoSelector } from "../../store/modalSlice";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getIngridients } from "../../store/thunks/ingridients";
-import Ingridients from "../Ingridients/Ingridients";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { removeInfo } from "../../store/infoSlice";
-
-const titles = [
-  { ru: "Булки", en: "bun" },
-  { ru: "Соусы", en: "sauce" },
-  { ru: "Начинки", en: "main" },
-];
+import { titleSelector } from "../../store/titlesSlice";
+import { IngrdidientSection } from "../IngridientSection/IngridientSection";
+import { sectionSelector } from "../../store/scrollSlice";
 
 export default function BurgerIngridients() {
   const dispatch = useDispatch();
   const opened = useSelector(modalInfoSelector);
   const isLoading = useSelector(ingridientsIsLoading);
   const [activeIndex, setActiveIndex] = useState(0);
+  const titles = useSelector(titleSelector).data;
+  const sections = useSelector(sectionSelector);
+  const isActive = (e) => {
+    return sections[`${e}`];
+  };
+
   useEffect(() => {
     dispatch(getIngridients());
   }, []);
-  const onClose = (e) => {
+  const onClose = () => {
     dispatch(closeModal());
     dispatch(removeInfo());
   };
@@ -41,7 +43,7 @@ export default function BurgerIngridients() {
       <div className={`${styles.tabs} pt-5 pb-5`}>
         {titles.map((e, index) => (
           <Tab
-            active={index === activeIndex}
+            active={isActive(e.en)}
             onClick={() => scrollDown(index)}
             value="one"
             key={index}
@@ -53,7 +55,15 @@ export default function BurgerIngridients() {
       {isLoading ? (
         <p className={`text text_type_main-medium`}>Загрузка</p>
       ) : (
-        <Ingridients titles={titles} />
+        <main className={`${styles.main}`}>
+          {titles.map((el, index) => {
+            return (
+              <IngrdidientSection key={index} id={index}>
+                {el}
+              </IngrdidientSection>
+            );
+          })}
+        </main>
       )}
       {opened && (
         <Modal onClose={onClose}>
