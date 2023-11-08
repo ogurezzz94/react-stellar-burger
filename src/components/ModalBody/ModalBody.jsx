@@ -1,5 +1,6 @@
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ModalBody.module.css";
+import PropTypes from "prop-types";
 
 export default function ModalBody({ children, onClose }) {
   return (
@@ -11,3 +12,7 @@ export default function ModalBody({ children, onClose }) {
     </div>
   );
 }
+
+ModalBody.propTypes = {
+  onClose: PropTypes.func,
+};

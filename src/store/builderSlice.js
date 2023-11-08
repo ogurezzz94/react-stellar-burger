@@ -12,6 +12,7 @@ const initialState = {
     main: [],
   },
   totalPrice: 0,
+  test: null,
 };
 
 const builderSlice = createSlice({
@@ -22,9 +23,13 @@ const builderSlice = createSlice({
       const item = { ...action.payload, qty: 2 };
       store.data.bun = item;
     },
-    addMain: (store, action) => {
-      const item = { ...action.payload, uniqId: uniqId(), qty: 1 };
-      if (store.data.bun) store.data.main.push(item);
+    addMain: {
+      reducer: (store, action) => {
+        if (store.data.bun) store.data.main.push(action.payload);
+      },
+      prepare: (item) => {
+        return { payload: { ...item, uniqId: uniqId(), qty: 1 } };
+      },
     },
     countPrice: (store) => {
       store.totalPrice =
@@ -41,9 +46,14 @@ const builderSlice = createSlice({
       store.data.main = initialState.data.main;
       store.totalPrice = initialState.totalPrice;
     },
+    dndSortList: (store, action) => {
+      const { element, index, finalIndex } = action.payload;
+      store.data.main.splice(index, 1);
+      store.data.main.splice(finalIndex, 0, element);
+    },
   },
 });
 
-export const { addBun, addMain, countPrice, deleteItem, reset } =
+export const { addBun, addMain, countPrice, deleteItem, reset, dndSortList } =
   builderSlice.actions;
 export default builderSlice.reducer;

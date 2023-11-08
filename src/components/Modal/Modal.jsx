@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Overlay from "../Overlay/Overlay";
 import ModalBody from "../ModalBody/ModalBody";
+import PropTypes from "prop-types";
 
 const modal = document.querySelector("#modal");
 
@@ -32,3 +33,7 @@ export default function Modal({ children, onClose }) {
     modal
   );
 }
+
+Modal.propTypes = {
+  onClose: PropTypes.func,
+};

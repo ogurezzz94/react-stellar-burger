@@ -1,9 +1,8 @@
 import styles from "./BurgerConstructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import {
   Button,
-  DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -13,7 +12,6 @@ import {
   priceSelector,
   bunBuilderSelector,
   mainBuilderSelector,
-  deleteItem,
   reset,
 } from "../../store/builderSlice";
 import {
@@ -26,6 +24,7 @@ import TotalPrice from "../TotalPrice/TotalPrice";
 import ConstructorEmpty from "../ConstructorEmpty/ConstructorEmpty";
 import { postOrder } from "../../store/thunks/order";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import { MainIngridient } from "../MainIngridient/MainIngridient";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ export default function BurgerConstructor() {
   const price = useSelector(priceSelector);
   const opened = useSelector(modalPurchaseSelector);
 
-  const onClose = (e) => {
+  const onClose = () => {
     dispatch(closeModal());
   };
 
@@ -67,15 +66,6 @@ export default function BurgerConstructor() {
     },
   });
 
-  const onDelete = (item) => {
-    dispatch(deleteItem(item));
-  };
-
-  // const [, dragRef] = useDrag({
-  //   type: `list`,
-  //   item: main,
-  // });
-
   return (
     <div
       className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}
@@ -97,19 +87,9 @@ export default function BurgerConstructor() {
             />
           </div>
           <ul className={`${styles.list}`}>
-            {main.map((e) => {
-              return (
-                <li key={e.uniqId} className={`${styles.item}`}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={`${e.name}`}
-                    price={`${e.price}`}
-                    thumbnail={`${e.image_mobile}`}
-                    handleClose={() => onDelete(e)}
-                  />
-                </li>
-              );
-            })}
+            {main.map((e, i) => (
+              <MainIngridient key={i} element={e} index={i} />
+            ))}
           </ul>
           <div className="ml-8 pt-2">
             <ConstructorElement

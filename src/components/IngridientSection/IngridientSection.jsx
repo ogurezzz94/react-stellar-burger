@@ -5,6 +5,7 @@ import { ingridientsSelector } from "../../store/ingridientsSlice";
 import IngridientCard from "../IngridientCard/IngridientCard";
 import styles from "./IngridientSection.module.css";
 import { toggleIn, toggleOut } from "../../store/scrollSlice";
+import PropTypes from "prop-types";
 
 export function IngrdidientSection({ children, id }) {
   const dispatch = useDispatch();
@@ -35,3 +36,7 @@ export function IngrdidientSection({ children, id }) {
     </section>
   );
 }
+
+IngrdidientSection.propTypes = {
+  id: PropTypes.number,
+};

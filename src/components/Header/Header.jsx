@@ -16,25 +16,23 @@ export default function Header() {
         </a>
         <ul className={`${styles.list}`}>
           <li>
-            <NavButton
-              content={<BurgerIcon type="primary" />}
-              text="Конструктор"
-            />
+            <NavButton text="Конструктор">
+              <BurgerIcon type="primary" />
+            </NavButton>
           </li>
           <li className={`${styles.space_item}`}>
-            <NavButton
-              content={<ListIcon type="secondary" />}
-              text="Лента заказов"
-            />
+            <NavButton text="Лента заказов">
+              <ListIcon type="secondary" />
+            </NavButton>
           </li>
           <li>
-            <NavButton
-              content={<ProfileIcon type="secondary" />}
-              text="Личный кабинет"
-            />
+            <NavButton text="Личный кабинет">
+              <ProfileIcon type="secondary" />
+            </NavButton>
           </li>
         </ul>
       </nav>
     </header>
   );
 }
+

@@ -12,6 +12,7 @@ import {
 import { openModalInfo } from "../../store/modalSlice";
 import { addInfo } from "../../store/infoSlice";
 import Price from "../Price/Price";
+import { ingredientPropType } from "../../utils/prop-types";
 
 export default function IngridientCard({ item }) {
   const dispatch = useDispatch();
@@ -27,9 +28,12 @@ export default function IngridientCard({ item }) {
     return num;
   };
 
-  const [, dragRef] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag({
     type: `${item.type}`,
     item: item,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
   const addToConstructor = (e) => {
@@ -46,7 +50,7 @@ export default function IngridientCard({ item }) {
 
   return (
     <div
-      className={`${styles.card}`}
+      className={`${styles.card} ${isDragging ? styles.dragged : ""}`}
       onContextMenu={(e) => addToConstructor(e)}
       onClick={(e) => showInfo(e)}
       ref={dragRef}
@@ -64,3 +68,7 @@ export default function IngridientCard({ item }) {
     </div>
   );
 }
+
+IngridientCard.propTypes = {
+  item: ingredientPropType,
+};
