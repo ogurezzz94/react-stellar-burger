@@ -23,17 +23,14 @@ export function MainIngridient({ element, index }) {
     dispatch(dndSortList(data));
   };
 
-  const [{ isDragging }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: "list",
     item: element,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
   });
 
   const [, dropRef] = useDrop({
     accept: "list",
-    hover: (item) =>
+    drop: (item) =>
       moveCard({
         element: item,
         index: main.indexOf(item),

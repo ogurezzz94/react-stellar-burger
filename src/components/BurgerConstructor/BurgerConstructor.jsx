@@ -88,7 +88,7 @@ export default function BurgerConstructor() {
           </div>
           <ul className={`${styles.list}`}>
             {main.map((e, i) => (
-              <MainIngridient key={i} element={e} index={i} />
+              <MainIngridient key={e.uniqId} element={e} index={i} />
             ))}
           </ul>
           <div className="ml-8 pt-2">
