@@ -6,4 +6,11 @@
   position: relative;
   width: 272px;
   height: 208px;
+  
+  border-radius: 20px;
+}
+
+.dragged {
+  background-color: rgba(255, 255, 255, 0.065);
+  opacity: 0.5;
 }

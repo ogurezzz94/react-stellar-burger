@@ -24,4 +24,5 @@
   display: grid;
   grid-template-columns: auto auto;
   grid-row: auto auto;
+  border-radius: 20px;
 }

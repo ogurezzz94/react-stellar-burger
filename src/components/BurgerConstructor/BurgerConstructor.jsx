@@ -1,92 +1,127 @@
+import styles from "./BurgerConstructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag, useDrop } from "react-dnd";
 import {
   Button,
   ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./BurgerConstructor.module.css";
-import TotalPrice from "../TotalPrice/TotalPrice";
+import {
+  addBun,
+  addMain,
+  countPrice,
+  priceSelector,
+  bunBuilderSelector,
+  mainBuilderSelector,
+  reset,
+} from "../../store/builderSlice";
+import {
+  closeModal,
+  modalPurchaseSelector,
+  openPurchaseModal,
+} from "../../store/modalSlice";
 import Modal from "../Modal/Modal";
-import ModalOrderAccepted from "../ModalOrderAccepted/ModalOrderAccepted";
+import TotalPrice from "../TotalPrice/TotalPrice";
+import ConstructorEmpty from "../ConstructorEmpty/ConstructorEmpty";
+import { postOrder } from "../../store/thunks/order";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import { MainIngridient } from "../MainIngridient/MainIngridient";
 
-export default function BurgerConstructor({ bun, main,order, setOrder }) {
-  const orderNum = (Math.random() * 1000000).toFixed();
-  const purchase = () => {
-    setOrder(orderNum);
+export default function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const main = useSelector(mainBuilderSelector);
+  const bun = useSelector(bunBuilderSelector);
+  const price = useSelector(priceSelector);
+  const opened = useSelector(modalPurchaseSelector);
+
+  const onClose = () => {
+    dispatch(closeModal());
   };
+
+  const purchase = () => {
+    dispatch(openPurchaseModal());
+    dispatch(
+      postOrder(
+        [bun._id].concat(
+          main.map((e) => {
+            return e._id;
+          })
+        )
+      )
+    );
+    dispatch(reset());
+  };
+
+  const [, dropRef] = useDrop({
+    accept: "bun",
+    drop(bun) {
+      dispatch(addBun(bun));
+      dispatch(countPrice());
+    },
+  });
+  const [, dropRef2] = useDrop({
+    accept: ["main", "sauce"],
+    drop(main) {
+      dispatch(addMain(main));
+      dispatch(countPrice());
+    },
+  });
+
   return (
-    <div className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}>
+    <div
+      className={`${styles.burger_constructor} pt-25 pb-10 pl-4 pr-4`}
+      onDragOver={(e) => e.preventDefault()}
+      ref={(el) => {
+        dropRef(el);
+        dropRef2(el);
+      }}
+    >
       {bun ? (
         <div className={`${styles.burger_section} pb-10`}>
-          <>
-            <div className="ml-8 pb-2">
-              <ConstructorElement
-                thumbnail={`${bun.image_mobile}`}
-                type="top"
-                isLocked={true}
-                text={`${bun.name} (верх)`}
-                price={`${bun.price}`}
-              />
-            </div>
-            <ul className={`${styles.list}`}>
-              {main.map((e, index) => {
-                return (
-                  <li key={index} className={`${styles.item}`}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={`${e.name}`}
-                      price={`${e.price}`}
-                      thumbnail={`${e.image_mobile}`}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="ml-8 pt-2">
-              <ConstructorElement
-                thumbnail={`${bun.image_mobile}`}
-                type="bottom"
-                isLocked={true}
-                text={`${bun.name} (низ)`}
-                price={`${bun.price}`}
-              />
-            </div>
-          </>
+          <div className="ml-8 pb-2">
+            <ConstructorElement
+              thumbnail={`${bun.image_mobile}`}
+              type="top"
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={`${bun.price}`}
+            />
+          </div>
+          <ul className={`${styles.list}`}>
+            {main.map((e, i) => (
+              <MainIngridient key={e.uniqId} element={e} index={i} />
+            ))}
+          </ul>
+          <div className="ml-8 pt-2">
+            <ConstructorElement
+              thumbnail={`${bun.image_mobile}`}
+              type="bottom"
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={`${bun.price}`}
+            />
+          </div>
         </div>
       ) : (
-        <div className={`${styles.empty} `}>
-          <p
-            className={`${styles.text} text text_type_main-default text_color_inactive`}
-          >
-            Здесь пусто.
-          </p>
-          <p
-            className={`${styles.text} text text_type_main-default text_color_inactive`}
-          >
-            Выберите ингредиенты для бургера,
-            <br />
-            нажав ПКМ на их карточку.(dnd будет позже)
-          </p>
-          <p
-            className={`${styles.text} text text_type_main-default text_color_inactive`}
-          >
-            Не забудьте, добавить булки!
-          </p>
-        </div>
+        <ConstructorEmpty />
       )}
-      <div className={`${styles.price_section}`}>
-        <TotalPrice setOrder={setOrder} />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={purchase}
-        >
-          Оформить заказ
-        </Button>
-      </div>
-      <Modal content={order} setter={setOrder}>
-        <ModalOrderAccepted order={order}/>
-      </Modal>
+      {price ? (
+        <div className={`${styles.price_section}`}>
+          <TotalPrice num={price} />
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={purchase}
+          >
+            Оформить заказ
+          </Button>
+        </div>
+      ) : undefined}
+      {opened && (
+        <Modal onClose={onClose}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 }

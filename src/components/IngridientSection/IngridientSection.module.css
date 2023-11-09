@@ -1,0 +1,11 @@
+.layer {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-row: auto auto;
+  border-radius: 20px;
+}
